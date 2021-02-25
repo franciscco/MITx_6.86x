@@ -5,7 +5,6 @@ import random
 # Part I
 
 
-#pragma: coderesponse template
 def get_order(n_samples):
     try:
         with open(str(n_samples) + '.txt') as fp:
@@ -16,6 +15,7 @@ def get_order(n_samples):
         indices = list(range(n_samples))
         random.shuffle(indices)
         return indices
+
 
 def hinge_loss_single(feature_vector, label, theta, theta_0):
     """
@@ -33,9 +33,9 @@ def hinge_loss_single(feature_vector, label, theta, theta_0):
     Returns: A real number representing the hinge loss associated with the
     given data point and parameters.
     """
-
     z = label * (theta.dot(feature_vector) + theta_0)
     return max(1-z, 0) 
+
 
 def hinge_loss_full(feature_matrix, labels, theta, theta_0):
     """
@@ -61,6 +61,7 @@ def hinge_loss_full(feature_matrix, labels, theta, theta_0):
 
     return z/len(labels)
 
+
 def perceptron_single_step_update(
         feature_vector,
         label,
@@ -83,23 +84,17 @@ def perceptron_single_step_update(
     real valued number with the value of theta_0 after the current updated has
     completed.
     """
-    # agreement = label*(current_theta.T.dot(feature_vector) + current_theta_0)
-    # if abs(agreement) <= 1e-6 or agreement < 0.0:
-    #     current_theta = current_theta + label*feature_vector
-    #     current_theta_0 = current_theta_0 + label
-    
-    # return (current_theta, current_theta_0)
     eps = 1e-8
     
     agreement = float(label*(current_theta.dot(feature_vector) + current_theta_0))
     
-    if abs(agreement) < eps or agreement < 0:   # 1st condition to check if = 0
+    if abs(agreement) < eps or agreement < 0:
             current_theta = current_theta + label*feature_vector
             current_theta_0 = current_theta_0 + label
             
     return (current_theta, current_theta_0)
 
-#pragma: coderesponse template
+
 def perceptron(feature_matrix, labels, T):
     """
     Runs the full perceptron algorithm on a given set of data. Runs T
@@ -125,13 +120,6 @@ def perceptron(feature_matrix, labels, T):
     theta_0, the offset classification parameter, after T iterations through
     the feature matrix.
     """
-    # theta = np.zeros(feature_matrix.shape[1])
-    # theta_0 = 0.0
-    # for t in range(T):
-    #     for i in get_order(feature_matrix.shape[0]):
-    #         theta, t0 = perceptron_single_step_update(feature_matrix[i,:], labels[i], theta, theta_0)
-
-    # return (theta, theta_0)
     current_theta = np.zeros(feature_matrix.shape[1])
     current_theta_0 = 0.0
     
@@ -144,7 +132,6 @@ def perceptron(feature_matrix, labels, T):
     return (current_theta, current_theta_0)
 
 
-#pragma: coderesponse template
 def average_perceptron(feature_matrix, labels, T):
     """
     Runs the average perceptron algorithm on a given set of data. Runs T
@@ -196,7 +183,6 @@ def average_perceptron(feature_matrix, labels, T):
     return (avg_theta, avg_theta_0)
 
 
-#pragma: coderesponse template
 def pegasos_single_step_update(
         feature_vector,
         label,
@@ -234,7 +220,6 @@ def pegasos_single_step_update(
     return (current_theta, current_theta_0)
 
 
-#pragma: coderesponse template
 def pegasos(feature_matrix, labels, T, L):
     """
     Runs the Pegasos algorithm on a given set of data. Runs T
@@ -282,7 +267,6 @@ def pegasos(feature_matrix, labels, T, L):
 # Part II
 
 
-#pragma: coderesponse template
 def classify(feature_matrix, theta, theta_0):
     """
     A classification function that uses theta and theta_0 to classify a set of
@@ -300,12 +284,14 @@ def classify(feature_matrix, theta, theta_0):
     given theta and theta_0. If a prediction is GREATER THAN zero, it should
     be considered a positive classification.
     """
-    # Your code here
-    raise NotImplementedError
-#pragma: coderesponse end
+    predictions = theta.dot(feature_matrix.T) + theta_0
+    predictions[predictions > 0] = 1
+    predictions[predictions <= 0] = -1
+
+    return predictions
 
 
-#pragma: coderesponse template
+
 def classifier_accuracy(
         classifier,
         train_feature_matrix,
@@ -338,12 +324,9 @@ def classifier_accuracy(
     trained classifier on the training data and the second element is the
     accuracy of the trained classifier on the validation data.
     """
-    # Your code here
-    raise NotImplementedError
-#pragma: coderesponse end
+    
 
 
-#pragma: coderesponse template
 def extract_words(input_string):
     """
     Helper function for bag_of_words()
