@@ -324,7 +324,16 @@ def classifier_accuracy(
     trained classifier on the training data and the second element is the
     accuracy of the trained classifier on the validation data.
     """
+    theta, theta_0 = classifier(train_feature_matrix, train_labels, **kwargs)
     
+    train_pred = classify(train_feature_matrix, theta, theta_0)
+    val_pred = classify(val_feature_matrix, theta, theta_0)
+
+    train_accuracy = accuracy(train_pred, train_labels)
+    val_accuracy = accuracy(val_pred, val_labels)
+
+    return train_accuracy, val_accuracy
+
 
 
 def extract_words(input_string):
@@ -349,12 +358,16 @@ def bag_of_words(texts):
 
     Feel free to change this code as guided by Problem 9
     """
-    # Your code here
+    
+    with open("stopwords.txt",'r',encoding='utf8') as st:
+        stop_words = st.read()
+        stop_words = stop_words.replace("\n"," ").split()
+
     dictionary = {} # maps word to unique index
     for text in texts:
         word_list = extract_words(text)
         for word in word_list:
-            if word not in dictionary:
+            if word not in dictionary and word not in stop_words:
                 dictionary[word] = len(dictionary)
     return dictionary
 #pragma: coderesponse end
@@ -380,7 +393,7 @@ def extract_bow_feature_vectors(reviews, dictionary):
         word_list = extract_words(text)
         for word in word_list:
             if word in dictionary:
-                feature_matrix[i, dictionary[word]] = 1
+                feature_matrix[i, dictionary[word]] += 1
     return feature_matrix
 #pragma: coderesponse end
 
