@@ -1,4 +1,13 @@
+jupyterlab
 numpy
 pandas
 matplotlib
 seaborn
+plotly
+sklearn
+scipy
+altair
+requests
+pyreadstat
+jupytext
+xgboost
