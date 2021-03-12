@@ -1,3 +1,4 @@
+from softmax import compute_test_error_mod3
 import sys
 import numpy as np
 import matplotlib.pyplot as plt
@@ -16,7 +17,7 @@ from kernel import *
 # Load MNIST data:
 train_x, train_y, test_x, test_y = get_MNIST_data()
 # Plot the first 20 images of the training set.
-plot_images(train_x[0:20, :])
+# plot_images(train_x[0:20, :])
 
 #######################################################################
 # 2. Linear Regression with Closed Form Solution
@@ -41,7 +42,9 @@ def run_linear_regression_on_MNIST(lambda_factor=1):
 
 
 # Don't run this until the relevant functions in linear_regression.py have been fully implemented.
-print('Linear Regression test_error =', run_linear_regression_on_MNIST(lambda_factor=1))
+# print('Linear Regression test_error =', run_linear_regression_on_MNIST(lambda_factor=1))
+# print('Linear Regression test_error =', run_linear_regression_on_MNIST(lambda_factor=0.1))
+# print('Linear Regression test_error =', run_linear_regression_on_MNIST(lambda_factor=0.01))
 
 
 #######################################################################
@@ -65,7 +68,7 @@ def run_svm_one_vs_rest_on_MNIST():
     return test_error
 
 
-print('SVM one vs. rest test_error:', run_svm_one_vs_rest_on_MNIST())
+# print('SVM one vs. rest test_error:', run_svm_one_vs_rest_on_MNIST())
 
 
 def run_multiclass_svm_on_MNIST():
@@ -81,7 +84,7 @@ def run_multiclass_svm_on_MNIST():
     return test_error
 
 
-print('Multiclass SVM test_error:', run_multiclass_svm_on_MNIST())
+# print('Multiclass SVM test_error:', run_multiclass_svm_on_MNIST())
 
 #######################################################################
 # 4. Multinomial (Softmax) Regression and Gradient Descent
@@ -114,6 +117,10 @@ def run_softmax_on_MNIST(temp_parameter=1):
 
     # TODO: add your code here for the "Using the Current Model" question in tab 6.
     #      and print the test_error_mod3
+    train_y_mod3, test_y_mod3 = update_y(train_y, test_y)
+    test_error_mod3 = compute_test_error_mod3(test_x, test_y_mod3, theta, temp_parameter)
+    print('test_error_mod3: ', test_error_mod3)
+
     return test_error
 
 
@@ -134,8 +141,14 @@ def run_softmax_on_MNIST_mod3(temp_parameter=1):
 
     See run_softmax_on_MNIST for more info.
     """
-    # YOUR CODE HERE
-    raise NotImplementedError
+    train_x, train_y, test_x, test_y = get_MNIST_data()
+    train_y_mod3, test_y_mod3 = update_y(train_y, test_y)
+    theta, cost_function_history = softmax_regression(train_x, train_y_mod3, temp_parameter, alpha= 0.3, lambda_factor = 1.0e-4, k = 10, num_iterations = 150)
+    plot_cost_function_over_time(cost_function_history)
+    test_error = compute_test_error(test_x, test_y_mod3, theta, temp_parameter)
+    return test_error
+
+print('softmax test_error=', run_softmax_on_MNIST_mod3(temp_parameter=1.0))
 
 
 # TODO: Run run_softmax_on_MNIST_mod3(), report the error rate
