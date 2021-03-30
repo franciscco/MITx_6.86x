@@ -124,7 +124,7 @@ def run_softmax_on_MNIST(temp_parameter=1):
     return test_error
 
 
-print('softmax test_error=', run_softmax_on_MNIST(temp_parameter=1))
+# print('softmax test_error=', run_softmax_on_MNIST(temp_parameter=1))
 
 # TODO: Find the error rate for temp_parameter = [.5, 1.0, 2.0]
 #      Remember to return the tempParameter to 1, and re-run run_softmax_on_MNIST
@@ -148,7 +148,7 @@ def run_softmax_on_MNIST_mod3(temp_parameter=1):
     test_error = compute_test_error(test_x, test_y_mod3, theta, temp_parameter)
     return test_error
 
-print('softmax test_error=', run_softmax_on_MNIST_mod3(temp_parameter=1.0))
+# print('softmax test_error=', run_softmax_on_MNIST_mod3(temp_parameter=1.0))
 
 
 # TODO: Run run_softmax_on_MNIST_mod3(), report the error rate
@@ -163,20 +163,26 @@ print('softmax test_error=', run_softmax_on_MNIST_mod3(temp_parameter=1.0))
 # TODO: First fill out the PCA functions in features.py as the below code depends on them.
 
 
-n_components = 18
+# n_components = 18
 
-###Correction note:  the following 4 lines have been modified since release.
-train_x_centered, feature_means = center_data(train_x)
-pcs = principal_components(train_x_centered)
-train_pca = project_onto_PC(train_x, pcs, n_components, feature_means)
-test_pca = project_onto_PC(test_x, pcs, n_components, feature_means)
+# ###Correction note:  the following 4 lines have been modified since release.
+# train_x_centered, feature_means = center_data(train_x)
+# pcs = principal_components(train_x_centered)
+# train_pca = project_onto_PC(train_x, pcs, n_components, feature_means)
+# test_pca = project_onto_PC(test_x, pcs, n_components, feature_means)
 
-# train_pca (and test_pca) is a representation of our training (and test) data
-# after projecting each example onto the first 18 principal components.
+# # train_pca (and test_pca) is a representation of our training (and test) data
+# # after projecting each example onto the first 18 principal components.
 
 
-# TODO: Train your softmax regression model using (train_pca, train_y)
-#       and evaluate its accuracy on (test_pca, test_y).
+# # TODO: Train your softmax regression model using (train_pca, train_y)
+# #       and evaluate its accuracy on (test_pca, test_y).
+# theta, cost_function_history = softmax_regression(train_pca, train_y, temp_parameter, alpha=0.3, lambda_factor=1.0e-4, k=10, num_iterations=150)
+# test_error = compute_test_error(test_pca, test_y, theta, temp_parameter=1)
+
+# plot_cost_function_over_time(cost_function_history)
+
+# print('Accuracy with 18 principal components: ', test_error)
 
 
 # TODO: Use the plot_PC function in features.py to produce scatterplot

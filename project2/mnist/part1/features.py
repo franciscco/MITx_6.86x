@@ -18,10 +18,9 @@ def project_onto_PC(X, pcs, n_components, feature_means):
     #       so the projection may be done using matrix multiplication.
     centered_data = center_data(X)
     c = pcs[:,0:n_components]
-    projected_data = centered_data * c
+    projected_data = centered_data @ c
 
     return projected_data
-
 
 ### Functions which are already complete, for you to use ###
 
